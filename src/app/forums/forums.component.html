@@ -1,5 +1,5 @@
 <h1>Forums Component</h1>
-<div>
+<div *ngIf="categories$ | async as categories">
   <ul>
     <li *ngFor="let category of categories">
       {{category.name}}
