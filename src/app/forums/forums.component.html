@@ -3,6 +3,15 @@
   <ul>
     <li *ngFor="let category of categories">
       {{category.name}}
+      <button (click)="getQuestions(category)">get questions</button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="questions$ | async as questions">
+  <ul>
+    <li *ngFor="let question of questions">
+      {{question.title}}
+      {{question.description}}
     </li>
   </ul>
 </div>
