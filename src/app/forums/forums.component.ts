@@ -3,6 +3,8 @@ import {ForumService} from './shared/forum.service';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {Category} from '../shared/models/category';
+import {Store} from "@ngxs/store";
+import {GetCategories} from "./state/categories/categories.actions";
 
 @Component({
   selector: 'app-forums',
@@ -14,7 +16,8 @@ export class ForumsComponent implements OnInit, OnDestroy{
   categories: Category[] = [];
   unsubscriber$ = new Subject();
   categories$: Observable<Category[]> | undefined;
-  constructor(private service: ForumService) { }
+  constructor(private service: ForumService,
+              private store: Store) { }
 
   ngOnInit(): void {
     this.categories$ = this.service.listenForCategories();
@@ -26,6 +29,10 @@ export class ForumsComponent implements OnInit, OnDestroy{
       .subscribe( categoriesFromDb => {
         this.categories = categoriesFromDb;
       });
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.store.dispatch(new GetCategories());
   }
 
   ngOnDestroy(): void {
