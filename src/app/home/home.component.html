@@ -1,1 +1,8 @@
-<h2>You are logged in as {{user.name}}</h2>
+
+<div *ngIf="loggedInUser$ | async as user">
+  <h2>ngxs try: {{user.username}}</h2>
+</div>
+
+<div *ngIf="loggedInUsername$ | async as username">
+  <h2>ngxs try 2: {{username}}</h2>
+</div>

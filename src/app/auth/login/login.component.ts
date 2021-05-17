@@ -2,23 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import {first} from "rxjs/operators";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthenticationService} from "../auth/authentication.service";
+import {AuthenticationService} from "../authentication.service";
+import { Select, Store } from '@ngxs/store';
+import {Login} from "./state/auth.actions";
+import {AuthState} from "./state/auth.state";
+import {Observable} from "rxjs";
+import {User} from "../../shared/models/user.model";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
-  // @ts-ignore
-  loginForm: FormGroup;
+
+  @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | undefined;
+
+  loginForm: FormGroup | undefined;
   loading = false;
   submitted = false;
-  // @ts-ignore
-  returnUrl: string;
+  returnUrl: string | undefined;
   error = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private store: Store,
+    private cookieService: CookieService
   ) {
     // if logged in -> redirect to home
     if (this.authenticationService.currentUserValue) {
@@ -50,8 +59,13 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
+
+    const payload = {
+      username: this.f.username.value,
+      password: this.f.password.value
+    }
+
+    this.store.dispatch(new Login(payload)).pipe(first())
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
@@ -60,6 +74,7 @@ export class LoginComponent implements OnInit {
           this.error = error;
           this.loading = false;
         });
+
   }
 }
 
