@@ -4,19 +4,39 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {JwtInterceptor} from './auth/interceptors/jwt.interceptor';
+import {ErrorInterceptor} from './auth/interceptors/error.interceptor';
+import {AuthState} from './auth/login/state/auth.state';
+import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
+import {NgxsModule} from '@ngxs/store';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { AboutComponent } from './about/about.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
     AppComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SocketIoModule.forRoot(config),
+    NgbModule,
+    HttpClientModule,
+    NgxsModule.forRoot([AuthState]),
+    NgxsStoragePluginModule.forRoot({
+      key: AuthState
+    }),
+    NgxsLoggerPluginModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

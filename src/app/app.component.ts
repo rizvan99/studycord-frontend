@@ -1,10 +1,33 @@
-import { Component } from '@angular/core';
-
+import {Component, OnInit} from '@angular/core';
+import {AuthState} from "./auth/login/state/auth.state";
+import {Observable} from "rxjs";
+import {User} from "./shared/models/user.model";
+import {Actions, ofActionDispatched, Select, Store } from '@ngxs/store';
+import {Login, Logout} from "./auth/login/state/auth.actions";
+import {first} from "rxjs/operators";
+import {Router} from "@angular/router";
+import {Action} from "rxjs/internal/scheduler/Action";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'studycord-frontend';
+  @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | undefined;
+
+  constructor(private store: Store, private router: Router, private actions: Actions) {  }
+
+  ngOnInit() {
+    this.actions.pipe(ofActionDispatched(Logout)).subscribe(() => this.router.navigate(['/login']));
+  }
+
+  logout() {
+    this.store.dispatch(new Logout()).pipe(first())
+      .subscribe(
+        () => {
+          this.router.navigate(['/login']);
+          localStorage.removeItem('auth');
+        });
+  }
 }
