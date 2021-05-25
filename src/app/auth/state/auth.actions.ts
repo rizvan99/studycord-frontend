@@ -1,9 +1,10 @@
-import {User} from "../../../shared/models/user.model";
+import {User} from '../../shared/models/user.model';
 
 export interface AuthStateModel {
   token: string | null;
   username: string | null;
-  loggedInUser: User | null;
+  loggedInUser: User | undefined;
+  userId: number | undefined;
 }
 
 export class Login {

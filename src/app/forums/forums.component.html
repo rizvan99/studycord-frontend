@@ -1,6 +1,13 @@
 <h1>Forums Component</h1>
+
+<div *ngIf="categoriesList$ | async as categories">
   <ul>
     <li *ngFor="let category of categories">
-      {{category.name}}
+      <a [routerLink]="['/forums', category.name]">{{category.name}}</a>
     </li>
   </ul>
+</div>
+<div *ngIf="!categoriesList$">
+  No categories are available
+</div>
+

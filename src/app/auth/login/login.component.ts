@@ -4,8 +4,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../authentication.service";
 import { Select, Store } from '@ngxs/store';
-import {Login} from "./state/auth.actions";
-import {AuthState} from "./state/auth.state";
+import {Login} from "../state/auth.actions";
+import {AuthState} from "../state/auth.state";
 import {Observable} from "rxjs";
 import {User} from "../../shared/models/user.model";
 import { CookieService } from 'ngx-cookie-service';
@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     private store: Store,
-    private cookieService: CookieService
   ) {
     // if logged in -> redirect to home
     if (this.authenticationService.currentUserValue) {

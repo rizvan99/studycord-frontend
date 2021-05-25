@@ -33,7 +33,7 @@
             </li>
           </ul>
         </div>
-        <div *ngIf="loggedInUser$ | async as user">
+        <div *ngIf="(loggedInUser$ | async) as user">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link" routerLink="/">Hello {{user.username}}</a>

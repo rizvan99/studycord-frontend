@@ -8,11 +8,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {JwtInterceptor} from './auth/interceptors/jwt.interceptor';
 import {ErrorInterceptor} from './auth/interceptors/error.interceptor';
-import {AuthState} from './auth/login/state/auth.state';
+import {AuthState} from './auth/state/auth.state';
 import {NgxsStoragePluginModule} from '@ngxs/storage-plugin';
 import {NgxsModule} from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { AboutComponent } from './about/about.component';
+import {CategoriesState} from './forums/state/categories/categories.state';
+import {QuestionsState, QuestionStateModel} from './forums/state/questions/questions.state';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -27,7 +29,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
     NgbModule,
     HttpClientModule,
-    NgxsModule.forRoot([AuthState]),
+    NgxsModule.forRoot([AuthState, CategoriesState, QuestionsState]),
     NgxsStoragePluginModule.forRoot({
       key: AuthState
     }),

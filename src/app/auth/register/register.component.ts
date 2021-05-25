@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import { Store } from '@ngxs/store';
 import {AuthenticationService} from "../authentication.service";
-import {Register} from "../login/state/auth.actions";
+import {Register} from "../state/auth.actions";
 
 @Component({
   selector: 'app-register',

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthState} from "./auth/login/state/auth.state";
+import {AuthState} from "./auth/state/auth.state";
 import {Observable} from "rxjs";
 import {User} from "./shared/models/user.model";
 import {Actions, ofActionDispatched, Select, Store } from '@ngxs/store';
-import {Login, Logout} from "./auth/login/state/auth.actions";
+import {Login, Logout} from "./auth/state/auth.actions";
 import {first} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {Action} from "rxjs/internal/scheduler/Action";
@@ -14,15 +14,17 @@ import {Action} from "rxjs/internal/scheduler/Action";
 })
 export class AppComponent implements OnInit {
   title = 'studycord-frontend';
+
   @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | undefined;
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean> | undefined;
 
   constructor(private store: Store, private router: Router, private actions: Actions) {  }
 
-  ngOnInit() {
-    this.actions.pipe(ofActionDispatched(Logout)).subscribe(() => this.router.navigate(['/login']));
+  ngOnInit(): void {
+    // this.actions.pipe(ofActionDispatched(Logout)).subscribe(() => this.router.navigate(['/login']));
   }
 
-  logout() {
+  logout(): void {
     this.store.dispatch(new Logout()).pipe(first())
       .subscribe(
         () => {

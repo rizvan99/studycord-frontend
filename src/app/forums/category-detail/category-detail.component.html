@@ -1,0 +1,21 @@
+
+<div *ngIf="selectedCategory$ | async as chosenCategory">
+  <button [routerLink]="['./', 'ask']">Ask a question</button>
+  <h2>Questions about {{chosenCategory.name}}</h2>
+
+
+<div *ngIf="questionsList$ | async as questions" >
+  <ul *ngFor="let question of questions">
+    <li *ngIf="question.category.id === chosenCategory.id">
+      <span>
+      Title: {{question.title}} <br>
+      By: {{question.createdBy.username}} <br>
+      {{question.creationDate}}</span>
+    </li>
+  </ul>
+</div>
+</div>
+
+<div *ngIf="!selectedCategory$">
+  Category doesn't exist
+</div>

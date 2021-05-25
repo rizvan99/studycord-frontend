@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ForumService} from './shared/forum.service';
-import {debounceTime, takeUntil} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {Category} from '../shared/models/category';
-import {Store} from "@ngxs/store";
-import {GetCategories} from "./state/categories/categories.actions";
+import {Select, Store} from '@ngxs/store';
+import {GetCategories, ListenForCategories, StopListeningForCategories} from './state/categories/categories.actions';
+import {CategoriesState} from './state/categories/categories.state';
+import {ForumService} from './shared/service/forum.service';
 
 @Component({
   selector: 'app-forums',
@@ -13,31 +13,20 @@ import {GetCategories} from "./state/categories/categories.actions";
 })
 export class ForumsComponent implements OnInit, OnDestroy{
 
-  categories: Category[] = [];
-  unsubscriber$ = new Subject();
-  categories$: Observable<Category[]> | undefined;
-  constructor(private service: ForumService,
-              private store: Store) { }
+  @Select(CategoriesState.categoriesList) categoriesList$: Observable<Category[]> | undefined;
+  unsubscribe$ = new Subject();
+
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.categories$ = this.service.listenForCategories();
-
-    this.service.getCategories()
-      .pipe(
-        takeUntil(this.unsubscriber$)
-      )
-      .subscribe( categoriesFromDb => {
-        this.categories = categoriesFromDb;
-      });
+    this.store.dispatch([new ListenForCategories(), new GetCategories()]);
   }
 
-  getCategories(): Observable<Category[]> {
-    return this.store.dispatch(new GetCategories());
-  }
 
   ngOnDestroy(): void {
-    this.unsubscriber$.next();
-    this.unsubscriber$.complete();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    this.store.dispatch(new StopListeningForCategories());
   }
 
 }
