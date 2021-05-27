@@ -26,3 +26,8 @@ export class StopListeningForQuestions {
 export class ListenForCreateQuestion {
   static readonly type = '[QUESTIONS] Listen for Create Question';
 }
+
+export class SetSelectedQuestion {
+  static readonly type = '[QUESTIONS] Set Selected';
+  constructor(public id: Question) {}
+}

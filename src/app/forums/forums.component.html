@@ -1,13 +1,22 @@
-<h1>Forums Component</h1>
+<h2>Forums</h2>
 
-<div *ngIf="categoriesList$ | async as categories">
-  <ul>
-    <li *ngFor="let category of categories">
-      <a [routerLink]="['/forums', category.name]">{{category.name}}</a>
-    </li>
-  </ul>
+<div class="container mt-5 mb-3">
+  <div class="row" *ngIf="categoriesList$ | async as categories">
+    <div class="col-md-4" *ngFor="let category of categories">
+      <div class="card text-white bg-primary mb-3" [routerLink]="['/forums', category.name]">
+        <div>
+          <div>
+            <div class="card-header">
+              <h5 style="text-align: center">{{category.name}}</h5>
+            </div>
+            <div class="card-body">
+              <div style="text-align: center">Questions: {{category.questions.length}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div *ngIf="!categoriesList$">
-  No categories are available
-</div>
+
 

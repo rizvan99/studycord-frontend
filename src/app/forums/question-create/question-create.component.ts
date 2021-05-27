@@ -18,8 +18,6 @@ export class QuestionCreateComponent implements OnInit {
   error: string | undefined;
   loading = false;
   submitted = false;
-  newQuestion: Question | undefined;
-  returnUrl: string | undefined;
 
   constructor(private fb: FormBuilder,
               private store: Store,
@@ -36,7 +34,6 @@ export class QuestionCreateComponent implements OnInit {
   back(): void {
     this.location.back();
   }
-
 
   onSubmit(): void {
     this.submitted = true;

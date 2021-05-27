@@ -1,0 +1,28 @@
+<form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Reply</label><br>
+    <input type="text" formControlName="reply" class="form-control" placeholder="Your reply">
+  </div>
+  <button [disabled]="loading" class="btn btn-primary">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+    Ask
+  </button>
+</form>
+
+<div *ngIf="selectedQuestion$ | async as question">
+  <h3>QUESTION:</h3>
+  <h4><b>Title:</b> {{question.title}}</h4>
+  <h5><b>Description:</b> {{question.description}}</h5>
+  <h6><b>By:</b> {{question.createdBy.username}}</h6><br><br>
+
+  <h3>REPLIES:</h3>
+  <div *ngIf="repliesList$ | async as replies">
+    <ul *ngFor="let reply of replies">
+      <li *ngIf="reply.question.id === question.id">
+        Answer: {{reply.content}} <br>
+        By: {{reply.createdBy.username}}
+      </li>
+    </ul>
+  </div>
+</div>
+

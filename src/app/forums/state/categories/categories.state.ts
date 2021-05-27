@@ -65,19 +65,22 @@ export class CategoriesState {
   stopListeningForCategories(ctx: StateContext<CategoriesStateModel>): void {
     if (this.categoriesUnsub) {
       this.categoriesUnsub.unsubscribe();
+      ctx.patchState({
+        selectedCategory: undefined,
+      })
     }
   }
 
   @Action(SetSelectedCategory)
   async setSelectedCategory(ctx: StateContext<CategoriesStateModel>, c: Category): Promise<void> {
-    const state = ctx.getState();
+    console.log('what is this 2: ', c);
     await this.forumService.getCategoryByName(c.name)
       .subscribe(category => {
         ctx.patchState({
           selectedCategory: category
         });
+        console.log('Selected category: ', category);
       });
-    console.log('selected category questions: ', state.selectedCategory);
   }
 
 

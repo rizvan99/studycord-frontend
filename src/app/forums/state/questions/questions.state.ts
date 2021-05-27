@@ -7,7 +7,7 @@ import {
   AddQuestion,
   GetQuestions,
   ListenForCreateQuestion,
-  ListenForQuestions,
+  ListenForQuestions, SetSelectedQuestion,
   StopListeningForQuestions,
   UpdateQuestions
 } from './questions.actions';
@@ -15,29 +15,35 @@ import {Observable, Subscription} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {insertItem, patch} from '@ngxs/store/operators';
 import {CategoriesState, CategoriesStateModel} from '../categories/categories.state';
+import {SetSelectedCategory} from '../categories/categories.actions';
 
 export class QuestionStateModel {
   public questions: Question[] | undefined;
+  public selectedQuestion: Question | undefined;
 }
-
 @State<QuestionStateModel>({
   name: 'questions',
   defaults: {
     questions: [],
+    selectedQuestion: undefined,
   }
 })
 
 @Injectable()
 export class QuestionsState {
 
-  constructor(private forumService: ForumService,
-              private store: Store) {}
+  constructor(private forumService: ForumService) {}
 
   private questionUnsub: Subscription | undefined;
 
   @Selector()
   static questionsList(state: QuestionStateModel): Question[] | undefined {
     return state.questions;
+  }
+
+  @Selector()
+  static selectedQuestion(state: QuestionStateModel): Question | undefined {
+    return state.selectedQuestion;
   }
 
   @Action(GetQuestions)
@@ -58,7 +64,6 @@ export class QuestionsState {
   listenForCreateQuestion(ctx: StateContext<QuestionStateModel>): void {
     this.questionUnsub = this.forumService.listenForCreateQuestion()
       .subscribe(question => {
-        // ctx.dispatch(new UpdateQuestions(question));
         ctx.setState(
           patch({
             questions: insertItem(question),
@@ -86,7 +91,21 @@ export class QuestionsState {
   stopListeningForQuestions(ctx: StateContext<QuestionStateModel>): void {
     if (this.questionUnsub) {
       this.questionUnsub.unsubscribe();
+      ctx.patchState({
+        selectedQuestion: undefined,
+      })
     }
+  }
+
+  @Action(SetSelectedQuestion)
+  async setSelectedQuestion(ctx: StateContext<QuestionStateModel>, q: Question): Promise<void> {
+    await this.forumService.getQuestionById(q.id)
+      .subscribe(question => {
+        ctx.patchState({
+          selectedQuestion: question
+        });
+        console.log('Selected question: ', question);
+      });
   }
 
 }

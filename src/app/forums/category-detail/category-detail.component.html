@@ -8,7 +8,7 @@
   <ul *ngFor="let question of questions">
     <li *ngIf="question.category.id === chosenCategory.id">
       <span>
-      Title: {{question.title}} <br>
+        Title: <a [routerLink]="['./', question.id]">{{question.title}}</a> <br>
       By: {{question.createdBy.username}} <br>
       {{question.creationDate}}</span>
     </li>

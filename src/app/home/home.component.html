@@ -1,1 +1,42 @@
-<h2>Home</h2>
+<h2>Welcome to StudyCord</h2>
+<br><br>
+<h4>Explore questions</h4>
+<table class="table">
+  <thead >
+  <tr>
+    <th scope="col">Category</th>
+    <th scope="col">Question</th>
+    <th scope="col">By</th>
+    <th scope="col">Replies</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="questionsList$ | async as questions">
+  <tr *ngFor="let question of questions.slice(0, 5)">
+    <td scope="row">{{question.category.name}}</td>
+    <td>{{question.title}}</td>
+    <td>{{question.createdBy.username}}</td>
+    <td>{{question.replies.length}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<br><br>
+
+<h4>Trending categories</h4>
+<table class="table">
+  <thead >
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">Questions</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="categoriesList$ | async as categories">
+  <tr *ngFor="let category of categories.slice(0, 5)">
+    <td>{{category.name}}</td>
+    <td>{{category.questions.length}}</td>
+  </tr>
+  </tbody>
+</table>
+
+
+

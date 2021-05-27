@@ -5,6 +5,8 @@ import {Select, Store} from '@ngxs/store';
 import {GetCategories, ListenForCategories, StopListeningForCategories} from './state/categories/categories.actions';
 import {CategoriesState} from './state/categories/categories.state';
 import {ForumService} from './shared/service/forum.service';
+import {Question} from '../shared/models/question';
+import {QuestionsState} from './state/questions/questions.state';
 
 @Component({
   selector: 'app-forums',
@@ -15,6 +17,7 @@ export class ForumsComponent implements OnInit, OnDestroy{
 
   @Select(CategoriesState.categoriesList) categoriesList$: Observable<Category[]> | undefined;
   unsubscribe$ = new Subject();
+  topQuestion: Question | undefined;
 
   constructor(private store: Store) { }
 

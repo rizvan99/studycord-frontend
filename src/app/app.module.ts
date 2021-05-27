@@ -15,6 +15,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { AboutComponent } from './about/about.component';
 import {CategoriesState} from './forums/state/categories/categories.state';
 import {QuestionsState, QuestionStateModel} from './forums/state/questions/questions.state';
+import {RepliesState} from './forums/state/replies/replies.state';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -29,7 +30,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
     NgbModule,
     HttpClientModule,
-    NgxsModule.forRoot([AuthState, CategoriesState, QuestionsState]),
+    NgxsModule.forRoot([AuthState, CategoriesState, QuestionsState, RepliesState]),
     NgxsStoragePluginModule.forRoot({
       key: AuthState
     }),
