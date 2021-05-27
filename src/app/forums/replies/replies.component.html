@@ -1,28 +1,40 @@
-<form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label>Reply</label><br>
-    <input type="text" formControlName="reply" class="form-control" placeholder="Your reply">
-  </div>
-  <button [disabled]="loading" class="btn btn-primary">
-    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-    Ask
-  </button>
-</form>
 
 <div *ngIf="selectedQuestion$ | async as question">
-  <h3>QUESTION:</h3>
-  <h4><b>Title:</b> {{question.title}}</h4>
-  <h5><b>Description:</b> {{question.description}}</h5>
-  <h6><b>By:</b> {{question.createdBy.username}}</h6><br><br>
+  <h2><b>QUESTION:</b></h2>
+  <h5><b>Title:</b> <br>{{question.title}}</h5>
+  <h5><b>Description:</b><br> {{question.description}}</h5>
+  <hr>
+  <h6><b>Questioned by:</b> {{question.createdBy.username}}</h6>
 
-  <h3>REPLIES:</h3>
+  <br><hr class="bg-dark" style="height: 3px"><br>
+
+  <div class="row">
+    <div class="card" style="width: 100%; padding: 20px; background: aliceblue">
+      <form [formGroup]="replyForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input type="text" formControlName="reply" class="form-control" placeholder="Your reply">
+        </div>
+        <button [disabled]="loading" class="btn btn-dark">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Ask
+        </button>
+      </form>
+    </div>
+  </div><br>
+
+  <h3><b>REPLIES:</b></h3><br>
+
   <div *ngIf="repliesList$ | async as replies">
-    <ul *ngFor="let reply of replies">
-      <li *ngIf="reply.question.id === question.id">
-        Answer: {{reply.content}} <br>
-        By: {{reply.createdBy.username}}
-      </li>
-    </ul>
-  </div>
-</div>
-
+    <div class="row">
+      <div *ngFor="let reply of replies">
+        <div *ngIf="reply.question.id === question.id">
+          <div class="card" style="width: 1100px; background: lightblue">
+            <b>Reply:</b> <br>{{reply.content}}
+            <hr>
+            <b>Answered by: </b> {{reply.createdBy.username}}<br>
+            {{reply.creationDate}}
+          </div>
+          <br>
+        </div>
+      </div>
+  </div><br><br>

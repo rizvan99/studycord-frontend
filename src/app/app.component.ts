@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | undefined;
   @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean> | undefined;
+  user = this.store.selectSnapshot(AuthState.loggedInUser);
 
   constructor(private store: Store, private router: Router, private actions: Actions) {  }
 

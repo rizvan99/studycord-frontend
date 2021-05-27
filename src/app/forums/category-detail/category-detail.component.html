@@ -1,21 +1,27 @@
 
 <div *ngIf="selectedCategory$ | async as chosenCategory">
-  <button [routerLink]="['./', 'ask']">Ask a question</button>
-  <h2>Questions about {{chosenCategory.name}}</h2>
-
-
-<div *ngIf="questionsList$ | async as questions" >
-  <ul *ngFor="let question of questions">
-    <li *ngIf="question.category.id === chosenCategory.id">
-      <span>
-        Title: <a [routerLink]="['./', question.id]">{{question.title}}</a> <br>
-      By: {{question.createdBy.username}} <br>
-      {{question.creationDate}}</span>
-    </li>
-  </ul>
+  <h2><b>Questions for {{chosenCategory.name}}</b></h2>
+  <button class="btn btn-dark" [routerLink]="['./', 'ask']">Ask a question</button>
+  <div *ngIf="questionsList$ | async as questions">
+    <br>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Replies</th>
+        <th scope="col">Date</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let question of questions">
+      <tr *ngIf="question.category.id === chosenCategory.id" [routerLink]="['./', question.id]">
+        <td scope="row">{{question.title}}</td>
+        <td>{{question.createdBy.username}}</td>
+        <td>{{question.replies.length}}</td>
+        <td>{{question.creationDate}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-</div>
 
-<div *ngIf="!selectedCategory$">
-  Category doesn't exist
-</div>

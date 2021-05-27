@@ -16,8 +16,9 @@ import { AboutComponent } from './about/about.component';
 import {CategoriesState} from './forums/state/categories/categories.state';
 import {QuestionsState, QuestionStateModel} from './forums/state/questions/questions.state';
 import {RepliesState} from './forums/state/replies/replies.state';
+import {environment} from '../environments/environment';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
 
 @NgModule({
   declarations: [

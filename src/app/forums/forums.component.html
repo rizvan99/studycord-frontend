@@ -1,9 +1,9 @@
-<h2>Forums</h2>
+<h2><b>Forums</b></h2>
 
 <div class="container mt-5 mb-3">
   <div class="row" *ngIf="categoriesList$ | async as categories">
     <div class="col-md-4" *ngFor="let category of categories">
-      <div class="card text-white bg-primary mb-3" [routerLink]="['/forums', category.name]">
+      <div class="card text-white bg-dark mb-3" [routerLink]="['/forums', category.name]">
         <div>
           <div>
             <div class="card-header">

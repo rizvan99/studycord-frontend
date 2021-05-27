@@ -1,4 +1,4 @@
-
+<h2><b>Ask a question</b></h2>
 <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label>Title</label><br>
@@ -8,8 +8,10 @@
     <label>Description</label><br>
     <input type="text" formControlName="description" class="form-control">
   </div>
-  <button [disabled]="loading" class="btn btn-primary">
+  <button [disabled]="loading" class="btn btn-primary" style="margin-bottom: 20px">
   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
     Ask
   </button>
 </form>
+
+
