@@ -15,14 +15,17 @@ import {Action} from "rxjs/internal/scheduler/Action";
 export class AppComponent implements OnInit {
   title = 'studycord-frontend';
 
-  @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | undefined;
+  @Select(AuthState.loggedInUser) loggedInUser$: Observable<User> | null | undefined;
   @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean> | undefined;
-  user = this.store.selectSnapshot(AuthState.loggedInUser);
+
+  user: User | null | undefined;
+  loggedIn = false;
 
   constructor(private store: Store, private router: Router, private actions: Actions) {  }
 
   ngOnInit(): void {
-    // this.actions.pipe(ofActionDispatched(Logout)).subscribe(() => this.router.navigate(['/login']));
+    this.loggedIn = this.store.selectSnapshot(AuthState.isAuthenticated);
+    this.user = this.store.selectSnapshot(AuthState.loggedInUser);
   }
 
   logout(): void {

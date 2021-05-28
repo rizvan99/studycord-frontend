@@ -32,10 +32,6 @@ const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
     NgbModule,
     HttpClientModule,
     NgxsModule.forRoot([AuthState, CategoriesState, QuestionsState, RepliesState]),
-    NgxsStoragePluginModule.forRoot({
-      key: AuthState
-    }),
-    NgxsLoggerPluginModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

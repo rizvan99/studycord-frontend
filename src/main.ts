@@ -8,6 +8,12 @@ if (environment.production) {
   enableProdMode();
 }
 
+function clrLocalStorage(): void {
+  localStorage.removeItem('auth');
+}
+
+clrLocalStorage();
+
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
