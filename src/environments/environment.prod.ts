@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://studycordbackend.herokuapp.com' // change to heroku
+  apiUrl: 'https://studycordbackend.herokuapp.com'
 };

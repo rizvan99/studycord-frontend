@@ -31,7 +31,6 @@ export class AuthenticationService {
 
   logout(): void {
     this.currentUserSubject.next(null);
-    localStorage.removeItem('auth.token');
   }
 
   register(username: string, password: string): Observable<boolean> {
