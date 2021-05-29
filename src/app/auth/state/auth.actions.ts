@@ -2,7 +2,7 @@ import {User} from '../../shared/models/user.model';
 
 export interface AuthStateModel {
   token: string | null;
-  username: string | null;
+  username: string | undefined;
   loggedInUser: User | undefined;
   userId: number | undefined;
 }

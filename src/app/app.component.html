@@ -23,8 +23,8 @@
         </li>
       </ul>
       <form class="form-inline">
-        <div *ngIf="!(loggedInUser$ | async) as user">
-          <ul class="navbar-nav">
+        <div>
+          <ul class="navbar-nav" *ngIf="!(isAuthenticated$ | async)">
             <li class="nav-item">
               <a class="nav-link" routerLink="/login">Log in</a>
             </li>
@@ -33,15 +33,17 @@
             </li>
           </ul>
         </div>
-        <div *ngIf="(loggedInUser$ | async) as user">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/">Hello {{user.username}}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/" (click)="logout()">Log out</a>
-            </li>
-          </ul>
+        <div>
+          <div>
+            <ul class="navbar-nav" *ngIf="(isAuthenticated$ | async) && (loggedInUser$ | async) as user">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/">Hello {{user.username}}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/" (click)="logout()">Log out</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </form>
     </div>

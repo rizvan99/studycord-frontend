@@ -9,7 +9,7 @@ import {User} from '../../shared/models/user.model';
   name: 'auth',
   defaults: {
     token: null,
-    username: null,
+    username: undefined,
     loggedInUser: undefined,
     userId: undefined,
   }
@@ -33,7 +33,7 @@ export class AuthState {
   }
 
   @Selector()
-  static loggedInUsername(state: AuthStateModel): string | null {
+  static loggedInUsername(state: AuthStateModel): string | undefined {
     return state.username;
   }
 
@@ -63,7 +63,7 @@ export class AuthState {
     this.authService.logout();
     ctx.setState({
       token: null,
-      username: null,
+      username: undefined,
       loggedInUser: undefined,
       userId: undefined,
     });

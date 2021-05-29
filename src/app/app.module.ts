@@ -33,7 +33,7 @@ const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
     HttpClientModule,
     NgxsModule.forRoot([AuthState, CategoriesState, QuestionsState, RepliesState]),
     NgxsStoragePluginModule.forRoot({
-      key: 'auth.token'
+      key: ['auth.token', 'auth.loggedInUser']
     }),
   ],
   providers: [
